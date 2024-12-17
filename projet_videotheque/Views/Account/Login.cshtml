@@ -1,0 +1,49 @@
+﻿@using videotheque.ViewModels;
+@model LoginViewModel;
+@{
+    ViewData["Title"] = "Connexion";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Connexion</h2>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Adresse email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Mot de passe</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="float-end">
+                <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
+                    Mot de passe oublié ?
+                </a>
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    Se souvenir de moi
+                </label>
+            </div>
+            <input type="submit" value="Se connecter" class="btn w-100 p-2 text-light" style="background-color:#1a1a3a" />
+            <p class="text-center mt-2">
+                Vous n'avez pas de compte ? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">S'inscrire</a>
+            </p>
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Retour</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* pour l'authentification côté client *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

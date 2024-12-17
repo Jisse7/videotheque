@@ -1,0 +1,145 @@
+﻿@using videotheque.ViewModels
+@model List<StockViewModel>
+
+<style>
+    body {
+        background-color: #1a1a3c;
+        color: #fff;
+    }
+
+    .movie-card {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        border-radius: 15px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 12px 12px 24px #13132b, -12px -12px 24px #212149;
+        }
+
+    .movie-image {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        height: 200px;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        position: relative;
+        padding: 8px;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149, inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+    }
+
+        .movie-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 4px 4px 8px rgba(19, 19, 43, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+    .movie-card:hover .movie-image img {
+        transform: scale(1.05);
+    }
+
+    .movie-info {
+        padding: 0.3rem 0.6rem;
+        border-radius: 8px;
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        box-shadow: inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+        margin-bottom: 0.5rem;
+        color: #a8a8a8;
+        font-size: 0.9rem;
+    }
+
+    .movie-title {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-shadow: 1px 1px 2px #13132b;
+    }
+
+    .btn-primary {
+        background: linear-gradient(145deg, #7665f0, #6351cb);
+        border: none;
+        border-radius: 15px;
+        padding: 0.5rem 2rem;
+        box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(145deg, #6351cb, #5442bc);
+            box-shadow: inset 4px 4px 8px #4a3aa3, inset -4px -4px 8px #7c68f3;
+        }
+
+    .page-title {
+        color: #fff;
+        text-shadow: 2px 2px 4px #13132b;
+        margin-bottom: 2rem;
+    }
+
+    .add-movie-btn {
+        background: linear-gradient(145deg, #32d979, #2abc63);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 0.5rem 2rem;
+        box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+        transition: all 0.3s ease;
+    }
+
+        .add-movie-btn:hover {
+            background: linear-gradient(145deg, #2abc63, #239d52);
+            box-shadow: inset 4px 4px 8px #1f8947, inset -4px -4px 8px #35e980;
+        }
+</style>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-title fw-bold">STOCK DES FILMS</h2>
+        <a asp-action="Create" class="btn add-movie-btn fw-bold">AJOUTER UN FILM</a>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var film in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="movie-card">
+                    <div class="movie-image">
+                        @if (!string.IsNullOrEmpty(film.ImageUrl))
+                        {
+                            <img src="@film.ImageUrl" alt="@film.Titre">
+                        }
+                        else
+                        {
+                            <div class="h-100 d-flex align-items-center justify-content-center">
+                                <span class="text-muted">Pas d'image</span>
+                            </div>
+                        }
+                    </div>
+
+                    <h5 class="movie-title">@film.Titre</h5>
+
+                    <div class="movie-info">
+                        <p class="mb-1"><small>Réalisateur : @film.Realisateur</small></p>
+                        <p class="mb-1"><small>Année : @film.AnneeSortie</small></p>
+                        <p class="mb-1"><small>Catégorie : @film.CategorieName</small></p>
+                        <p class="mb-1"><small>Stock : @film.ExemplairesDisponibles / @film.NombreExemplaires</small></p>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Edit" asp-route-id="@film.Id" class="btn btn-primary w-100">
+                            Modifier
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

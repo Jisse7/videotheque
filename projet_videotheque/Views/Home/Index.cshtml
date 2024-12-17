@@ -1,0 +1,118 @@
+﻿@model videotheque.ViewModels.MovieGridViewModel
+
+<div class="container mt-3" style="max-width: 81%;">
+    <!-- Filtre + recherche -->
+    <div class="filter-section d-flex justify-content-between align-items-center mb-5">
+        <!-- Catégories -->
+        <span class="tag-group">
+            <div class="active-filter">
+                Tous les films
+            @*     <div class="d-inline-block ms-2">
+                    @foreach (var categorie in Model.Categories)
+                    {
+                        <a href="@Url.Action("Index", new { categoryId = categorie.Id })"
+                           class="badge bg-primary text-white text-decoration-none me-1">
+                            @categorie.Nom
+                        </a>
+                    }
+                </div> *@
+            </div>
+        </span>
+
+        <!-- Barre de recherche -->
+        <div class="search-bar d-flex justify-content-center flex-grow-1 align-items-center"
+             style="max-width: 50%; min-height: 2.5rem;">
+            <form asp-action="Index" method="get" class="d-flex w-100 align-items-center">
+                <input type="text" name="searchString"
+                       class="border-0 bg-transparent text-light"
+                       style="width: 80%; max-width: 25rem; text-align: center; font-size: 1rem;"
+                       placeholder="Trouvez votre film">
+                <button type="submit" class="btn text-light border-0 p-0">
+                    <i class="fas fa-search ms-2" style="font-size: 1.2rem;"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Menu filtres -->
+        <div class="dropdown">
+            <button class="filter-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">Trier par</h6></li>
+                <li>
+                    <a class="dropdown-item @(ViewBag.CurrentSort == "touslesfilms" ? "active" : "")"
+                       href="@Url.Action("Index", new { sortOrder = "touslesfilms" })">
+                        Tous les films
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewBag.CurrentSort == "date" ? "active" : "")"
+                       href="@Url.Action("Index", new { sortOrder = "date" })">
+                        Date de sortie
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewBag.CurrentSort == "genre" ? "active" : "")"
+                       href="@Url.Action("Index", new { sortOrder = "genre" })">
+                        Genre
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewBag.CurrentSort == "duree" ? "active" : "")"
+                       href="@Url.Action("Index", new { sortOrder = "duree" })">
+                        Durée
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewBag.CurrentSort == "score" ? "active" : "")"
+                       href="@Url.Action("Index", new { sortOrder = "score" })">
+                        Score
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Grille des films -->
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4">
+        @foreach (var film in Model.Films)
+        {
+            <div class="col">
+                <a class="nav-link p-0" asp-controller="Films" asp-action="FilmDetails" asp-route-id="@film.Id">
+                    <div class="movie-card" >
+                        <!-- Titre et score -->
+                        <div class="d-flex justify-content-between align-items-center mb-2" style="max-height:1%">
+                            <h6 class="text-light" style="font-size: 0.85rem;"><strong>@film.Titre</strong></h6>
+                            <span class="score-badge text-warning">@film.ScoreMoyen.ToString("F1")</span>
+                        </div>
+
+                        <!-- Image du film -->
+                        <div class="movie-image position-relative">
+                            <img src="@film.ImageUrl" alt="@film.Titre"
+                                 class="w-100 h-100 object-fit-cover rounded">
+                        @*     <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-2">
+                                <div class="text-white">
+                                    <small>@film.AnneeSortie • @film.DureeMinutes min</small><br />
+                                    <small>Réalisé par @film.Realisateur</small>
+                                </div>
+                            </div> *@
+                        </div>
+
+                        <!-- Informations supplémentaires -->
+                        <div class="movie-info mt-2 text-white">
+                            <small>@film.AnneeSortie • @film.DureeMinutes min</small><br />
+                            <small>@film.Realisateur</small>
+                        </div>
+
+                        <!-- Catégorie et prix -->
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="badge bg-primary">@film.Categorie?.Nom</span>
+                            <span class="text-light"> @film.Prix24h.ToString("F2") €</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>

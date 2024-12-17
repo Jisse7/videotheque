@@ -1,0 +1,290 @@
+﻿@model videotheque.ViewModels.FilmDetailsViewModel
+
+<div class="movie-container rounded-4" style="background-image: url('@Model.ImageUrl');">
+    <div class="overlay"></div>
+    <div class="content">
+        <h1 class="movie-title">@Model.Titre</h1>
+
+        <div class="score text-warning">
+            <h2>Score : @Model.ScoreMoyen.ToString("F1")/5</h2>
+        </div>
+
+        <div class="movie-description">
+            <p>@Model.Synopsis</p>
+        </div>
+
+        <div class="movie-description realisateur year d-flex gap-4">
+            <p>@Model.Realisateur</p>
+            <p>@Model.AnneeSortie • @Model.DureeMinutes min</p>
+        </div>
+
+        <div class="movie-info">
+            <p class="text-success">Prix : @Model.Prix24h.ToString("F2")€ - @Model.Prix1Semaine.ToString("F2")€</p>
+            <p>Disponible: @(Model.EstDisponible ? "Oui" : "Non") (@Model.NombreExemplairesDisponibles en stock)</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#trailerModal">
+                Trailer
+            </button>
+
+            @if (Model.EstDisponible)
+            {
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#calendarModal">
+                    Réserver
+                </button>
+                <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#rentModal">
+                    Ajouter au panier
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Trailer -->
+<div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="min-width:100.5%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="trailerModalLabel">Trailer de @Model.Titre</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="video-container">
+                    @Html.Raw(Model.TrailerUrl)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Calendar avec durée intégrée -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Étape 1 : Calendrier -->
+            <div id="calendar-step">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="calendarModalLabel">Sélectionner une date de réservation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="calendar">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <button class="btn btn-outline-light btn-sm prev-month">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h6 class="month-title mb-0">Août 2024</h6>
+                            <button class="btn btn-outline-light btn-sm next-month">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="days-header d-flex justify-content-between mb-3">
+                            <div class="day-name">Dim</div>
+                            <div class="day-name">Lun</div>
+                            <div class="day-name">Mar</div>
+                            <div class="day-name">Mer</div>
+                            <div class="day-name">Jeu</div>
+                            <div class="day-name">Ven</div>
+                            <div class="day-name">Sam</div>
+                        </div>
+
+                        <div class="days-grid">
+                            <!-- Les jours seront générés par JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 2 : Choix de durée -->
+            <div id="duration-step" class="d-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choisir la durée de location</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="rental-duration">
+                        <select class="form-select mb-3">
+                            <option value="24">24h - 4.99€</option>
+                            <option value="48">48h - 7.99€</option>
+                            <option value="72">72h - 9.99€</option>
+                            <option value="168">1 semaine - 14.99€</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-purple w-100">Confirmer la réservation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Louer (directement) -->
+<div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rentModalLabel">Choisir la durée de location</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="filmId" value="@Model.Id" />
+                <div class="modal-body">
+                    <div class="rental-duration">
+                        <select class="form-select mb-3" name="dureeLocation">
+                            <option value="24">24h - @Model.Prix24h.ToString("F2")€</option>
+                            <option value="48">48h - @Model.Prix48h.ToString("F2")€</option>
+                            <option value="72">72h - @Model.Prix72h.ToString("F2")€</option>
+                            <option value="168">1 semaine - @Model.Prix1Semaine.ToString("F2")€</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-purple w-100">Ajouter au panier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Container pour les toasts -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- Toast pour la réservation -->
+    <div id="reservationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Succès</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Votre réservation a été effectuée avec succès !
+        </div>
+    </div>
+
+    <!-- Toast pour l'ajout au panier -->
+    <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Succès</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Le film a été ajouté à votre panier !
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Gestionnaire pour le modal du trailer
+        const trailerModal = document.getElementById('trailerModal');
+
+        trailerModal.addEventListener('hide.bs.modal', function () {
+            const iframeElement = this.querySelector('iframe');
+            if (iframeElement) {
+                const iframeSrc = iframeElement.src;
+                iframeElement.src = '';
+                setTimeout(() => {
+                    iframeElement.src = iframeSrc;
+                }, 100);
+            }
+        });
+
+        // Initialize toasts
+        const reservationToast = new bootstrap.Toast(document.getElementById('reservationToast'));
+        const cartToast = new bootstrap.Toast(document.getElementById('cartToast'));
+
+        // Handle reservation confirmation
+        document.querySelector('#duration-step .btn-purple').addEventListener('click', function () {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('calendarModal'));
+            modal.hide();
+            reservationToast.show();
+        });
+
+        // Handle add to cart
+        document.querySelector('#rentModal .btn-purple').addEventListener('click', function () {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('rentModal'));
+            modal.hide();
+            cartToast.show();
+        });
+
+        // Réinitialiser le modal calendrier quand il est fermé
+        document.getElementById('calendarModal').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('calendar-step').classList.remove('d-none');
+            document.getElementById('duration-step').classList.add('d-none');
+        });
+
+        // Variables du calendrier
+        const daysGrid = document.querySelector('.days-grid');
+        const monthTitle = document.querySelector('.month-title');
+        const prevMonth = document.querySelector('.prev-month');
+        const nextMonth = document.querySelector('.next-month');
+        let currentDate = new Date();
+
+        function generateCalendar(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+
+            const options = { month: 'long', year: 'numeric' };
+            monthTitle.textContent = date.toLocaleDateString('fr-FR', options);
+
+            daysGrid.innerHTML = '';
+
+            // Cases vides pour les jours avant le premier du mois
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day-item day-disabled';
+                daysGrid.appendChild(emptyDay);
+            }
+
+            // Jours du mois
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day-item';
+                dayElement.textContent = day;
+
+                // Exemple : Marquer certains jours comme disponibles ou non
+                if (day % 3 === 0) {
+                    dayElement.classList.add('day-available');
+                    dayElement.addEventListener('click', function () {
+                        // Sélectionner la date
+                        document.querySelectorAll('.day-selected').forEach(el =>
+                            el.classList.remove('day-selected')
+                        );
+                        this.classList.add('day-selected');
+
+                        // Passer à l'étape de durée
+                        setTimeout(() => {
+                            document.getElementById('calendar-step').classList.add('d-none');
+                            document.getElementById('duration-step').classList.remove('d-none');
+                        }, 300);
+                    });
+                } else {
+                    dayElement.classList.add('day-unavailable');
+                }
+
+                daysGrid.appendChild(dayElement);
+            }
+        }
+
+        // Navigation entre les mois
+        prevMonth.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate);
+        });
+
+        nextMonth.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate);
+        });
+
+        // Générer le calendrier initial
+        generateCalendar(currentDate);
+    });
+</script>

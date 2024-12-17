@@ -1,0 +1,220 @@
+﻿/* Thème général et styles de base */
+body {
+    background-color: #1a1a3a;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding-bottom: 80px;
+    min-height: 100vh;
+}
+
+/* Styles de la barre de navigation */
+.navbar {
+    background: linear-gradient(145deg, #1f1f45, #171736) !important;
+    padding: 1rem 2rem;
+    border: none !important;
+    box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149 !important;
+}
+
+.navbar-brand {
+    color: white !important;
+    text-shadow: 2px 2px 4px #13132b;
+}
+
+/* Styles des liens de navigation */
+.nav-link {
+    color: white;
+    padding: 1rem 1.5rem;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+    .nav-link:hover {
+        background: linear-gradient(145deg, #2d2d5a, #252550);
+        color: white !important;
+        box-shadow: inset 3px 3px 6px #1f1f3e, inset -3px -3px 6px #353576;
+    }
+
+    .nav-link.active {
+        background: linear-gradient(145deg, #7665f0, #6351cb);
+        color: white !important;
+        box-shadow: inset 4px 4px 8px #4a3aa3, inset -4px -4px 8px #7c68f3;
+    }
+
+/* Styles des icônes du menu et du panier */
+.menu-icon,
+.cart-icon {
+    color: white;
+    font-size: 1.5rem;
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+    transition: all 0.3s ease;
+}
+
+    .menu-icon:hover,
+    .cart-icon:hover {
+        box-shadow: inset 4px 4px 8px #13132b, inset -4px -4px 8px #212149;
+    }
+
+/* Styles du menu latéral (Offcanvas) */
+.offcanvas {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    color: white;
+}
+
+.offcanvas-header {
+    background: linear-gradient(145deg, #232350, #1b1b40);
+    border-bottom: 1px solid #2d2d5a;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+    .offcanvas-header .btn-close {
+        background-color: #a8a8a8;
+        border-radius: 50%;
+        box-shadow: 2px 2px 4px #13132b, -2px -2px 4px #212149;
+        opacity: 1;
+    }
+
+/* Styles du lien de déconnexion */
+.logout-link {
+    color: #ff4757;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    margin-top: auto;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+    .logout-link:hover {
+        background: linear-gradient(145deg, #2d2d5a, #252550);
+        box-shadow: inset 3px 3px 6px #1f1f3e, inset -3px -3px 6px #353576;
+    }
+
+/* Styles spécifiques pour le panier déroulant */
+.shopping-cart {
+    min-width: 320px;
+    padding: 1rem;
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border: 1px solid #2d2d5a;
+    box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+}
+
+.cart-item {
+    background: linear-gradient(145deg, #2d2d5a, #252550);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+}
+
+.cart-item:last-child {
+        margin-bottom: 0;
+}
+
+.cart-details {
+    background: linear-gradient(145deg, #2d2d5a, #252550);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: inset 4px 4px 8px #1f1f3e, inset -4px -4px 8px #353576;
+}
+
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.continue-btn {
+    background: linear-gradient(145deg, #7665f0, #6351cb);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem;
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+    transition: all 0.3s ease;
+}
+
+    .continue-btn:hover {
+        box-shadow: inset 4px 4px 8px #4a3aa3, inset -4px -4px 8px #7c68f3;
+        color: white;
+        text-decoration: none;
+    }
+
+.remove-item {
+    background: transparent;
+    color: #ff4757;
+    border: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+    .remove-item:hover {
+        color: #ff6b81;
+        transform: scale(1.1);
+    }
+
+/* Styles pour le panier vide et connexion requise */
+.text-center.p-4 {
+    background: linear-gradient(145deg, #2d2d5a, #252550);
+    border-radius: 10px;
+    padding: 1.5rem !important;
+    box-shadow: inset 4px 4px 8px #1f1f3e, inset -4px -4px 8px #353576;
+}
+
+    .text-center.p-4 i {
+        color: #7665f0;
+        margin-bottom: 1rem;
+    }
+
+    .text-center.p-4 p {
+        color: #a8a8a8;
+        margin-bottom: 1rem;
+    }
+
+/* Styles du footer */
+.footer {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    color: white;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #2d2d5a;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+    .footer-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        text-shadow: 1px 1px 2px #13132b;
+    }
+
+/* Ajuster le main pour éviter que le footer ne chevauche le contenu */
+main {
+    margin-bottom: 60px;
+}
+
+/* Styles pour la dropdown du panier */
+.dropdown-menu {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* Animation pour le hover des boutons */
+.btn:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+}

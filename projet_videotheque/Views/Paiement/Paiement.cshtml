@@ -1,0 +1,229 @@
+﻿@model List<CartItem>
+@{
+    var locationId = ViewData["LocationId"];
+    var cartIsEmpty = !Model.Any();
+}
+
+<style>
+    body {
+        background-color: #1a1a3a;
+        color: white;
+    }
+
+    .payment-container {
+        padding: 1.2rem;
+    }
+
+    .cart-item {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .cart-item-image {
+        width: 50px;
+        height: 50px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .cart-item-content {
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .payment-card {
+        margin-left: 20%;
+        max-width: 80%;
+        background-color: #2d355a;
+        border-radius: 15px;
+        padding: 1.5rem;
+    }
+
+    .card-icons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .card-icons i {
+            color: #a8a8a8;
+        }
+
+    .payment-form input {
+        background-color: #1a1a3a;
+        border: none;
+        color: white;
+        padding: 0.8rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .pay-button {
+        background-color: #2ecc71;
+        border: none;
+        color: white;
+        padding: 0.8rem;
+        border-radius: 10px;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+        .pay-button:hover {
+            background-color: #27ae60;
+        }
+
+    .back-link {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .remove-item {
+        color: #666;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .totals-section {
+        color: white;
+        font-size: 0.95rem;
+    }
+
+    .form-control:focus {
+        background-color: #1a1a3a;
+        color: white;
+        box-shadow: none;
+        border: 1px solid #6c5ce7;
+    }
+
+    .form-control::placeholder {
+        color: #666;
+    }
+</style>
+
+<div class="container payment-container">
+    <a class="back-link" asp-controller="Home" asp-action="Index">
+        <i class="fas fa-arrow-left"></i>
+        Retour à la boutique
+    </a>
+
+    <div class="row">
+        <!-- Section panier -->
+        <div class="col-md-6">
+            <h5 class="mb-4">Votre Panier</h5>
+
+            @if (!cartIsEmpty)
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            @if (!string.IsNullOrEmpty(item.Film.ImageUrl))
+                            {
+                                <img src="@item.Film.ImageUrl" alt="@item.Film.Titre" class="cart-item-image" />
+                            }
+                        </div>
+                        <div class="cart-item-content">
+                            <div>
+                                <div class="text-light">@item.Film.Titre</div>
+                                <small class="text-light">@item.DureeLocation heures</small>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="text-success">@item.PrixLocation.ToString("F2")€</span>
+                                <form asp-controller="Cart" asp-action="RemoveFromCart" method="post" class="d-inline">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <button type="submit" class="remove-item">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Section des totaux -->
+                <div class="totals-section mt-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total HT</span>
+                        <span>@Model.Sum(x => x.PrixLocation).ToString("F2")€</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>TVA (20%)</span>
+                        <span>@(Model.Sum(x => x.PrixLocation * 0.2M).ToString("F2"))€</span>
+                    </div>
+                    <hr class="my-2" style="border-color: white;">
+                    <div class="d-flex justify-content-between" style="font-weight: bold;">
+                        <span>Total TTC</span>
+                        <span>@(Model.Sum(x => x.PrixLocation * 1.2M).ToString("F2"))€</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center p-4" style="background: #2d355a; border-radius: 10px;">
+                    <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                    <p class="mb-3">Votre panier est vide</p>
+                    <a class="btn continue-btn" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-film me-2"></i>Voir les films disponibles
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Section détails de paiement -->
+        <div class="col-md-6">
+            <div class="payment-card">
+                <h5 class="mb-4">Détails de votre carte</h5>
+
+                <div class="card-icons">
+                    <i class="fab fa-cc-mastercard fa-2x"></i>
+                    <i class="fab fa-cc-visa fa-2x"></i>
+                    <i class="fab fa-paypal fa-2x"></i>
+                </div>
+
+                <form class="payment-form" asp-controller="Paiement" asp-action="ProcessPayment" method="post">
+                    <input type="hidden" name="locationId" value="@locationId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Nom de la carte</label>
+                        <input type="text" class="form-control" placeholder="Bojaard" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Numéro de carte</label>
+                        <input type="text" class="form-control" placeholder="1234 5678 9012 3456" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date d'expiration</label>
+                            <input type="text" class="form-control" placeholder="MM/AA" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">CVV</label>
+                            <input type="text" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="pay-button mt-4 @(cartIsEmpty ? "bg-secondary" : "")" @(cartIsEmpty ? "disabled" : "")>
+                        Payer @(cartIsEmpty ? "0.00" : Model.Sum(x => x.PrixLocation * 1.2M).ToString("F2"))€
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

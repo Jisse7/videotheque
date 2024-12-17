@@ -1,0 +1,583 @@
+﻿@model IEnumerable<videotheque.Models.Location>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #1a1a3a;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        padding-bottom: 80px;
+        min-height: 100vh;
+    }
+
+    .nav-button {
+        background: #1f1f45;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        box-shadow: 4px 4px 8px #13132b;
+    }
+
+    .nav-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .nav-button:hover {
+        background: #2d2d5a;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+        min-height: 7rem;
+    }
+
+    .movie-card {
+        background: #1f1f45;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 4px 4px 8px #13132b;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .movie-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .movie-title {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .movie-info {
+        font-size: 0.9em;
+        color: #a8a8a8;
+        margin: 5px 0;
+        padding: 8px;
+    }
+
+    .movie-info span {
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .modal-body {
+        /* Modifiez ces propriétés */
+        align-items: flex-start; /* Au lieu de center */
+        text-align: left;
+    }
+
+    .facture-item {
+        width: 100%;
+        text-align: left;
+    }
+
+    .modal-body p {
+        text-align: left;
+        width: 100%;
+    }
+
+    .modal-content {
+        background: #1f1f45;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 8px 8px 16px #13132b;
+    }
+
+    .modal-header {
+        border-bottom: none;
+        padding: 20px;
+    }
+
+    .modal-header .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-divider {
+        height: 2px;
+        background: linear-gradient(to right, #6c5ce7, #a178df);
+        margin: 15px 0;
+        box-shadow: 0 2px 4px rgba(108, 92, 231, 0.2);
+    }
+
+    .status-label {
+        color: white;
+        font-size: 0.9em;
+        display: inline-block;
+        width: 120px;
+    }
+
+    .btn-return {
+        background: #2d2d5a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 20px;
+        box-shadow: 4px 4px 8px #13132b;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-return:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 12px #13132b;
+        background: #3d3d6a;
+    }
+
+    .btn-stock-change {
+        background: #f1c40f;
+        color: black;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 20px;
+        box-shadow: 4px 4px 8px #13132b;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-stock-change:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 12px #13132b;
+        background: #f39c12;
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.9em;
+        color: white;
+        display: inline-block;
+    }
+
+    .status-encours {
+        background-color: #2ecc71;
+    }
+
+    .status-retard {
+        background-color: #e74c3c;
+    }
+
+    .stock-info {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        font-size: 1.1em;
+        color: white;
+        margin-top: 10px;
+    }
+
+    .facture-btn, .pdf-btn {
+        background: #2d2d5a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 20px;
+        box-shadow: 4px 4px 8px #13132b;
+        transition: all 0.3s ease;
+    }
+
+    .facture-btn:hover, .pdf-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 12px #13132b;
+        color: white;
+    }
+
+    .facture-item {
+        margin: 10px 0;
+        padding: 5px 0;
+    }
+
+    .facture-total {
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 20px;
+        color: white;
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+
+    #interactive.viewport {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        max-width: 500px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+        #interactive.viewport > canvas,
+        #interactive.viewport > video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+    #scanResult {
+        margin-top: 1rem;
+        text-align: center;
+        width: 100%;
+    }
+    canvas.drawing, canvas.drawingBuffer {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <a asp-action="Retour" class="nav-button @(ViewBag.StatutActuel == null ? "active" : "")" style="margin-right: 10px;">
+            Tous
+        </a>
+        <a asp-action="Retour" asp-route-statut="En cours" class="nav-button @(ViewBag.StatutActuel == "En cours" ? "active" : "")" style="margin-right: 10px;">
+            En cours
+        </a>
+        <a asp-action="Retour" asp-route-statut="En retard" class="nav-button @(ViewBag.StatutActuel == "En retard" ? "active" : "")" style="margin-right: 10px;">
+            En retard
+        </a>
+        <a asp-action="Retour" asp-route-statut="Terminée" class="nav-button @(ViewBag.StatutActuel == "Terminée" ? "active" : "")">
+            Terminées
+        </a>
+
+        <button type="button" class="nav-button ms-5 bg-danger" data-bs-toggle="modal" data-bs-target="#scannerModal">
+            <i class="fas fa-barcode me-2"></i>Scanner un DVD
+        </button>
+    </div>
+
+    <div class="grid-container">
+        @foreach (var location in Model)
+        {
+            @foreach (var detail in location.LocationDetails)
+            {
+                <div class="movie-card" 
+                     data-location-id="@location.Id"
+                     data-detail-id="@detail.Id"
+                     data-date-emprunt="@location.DateLocation.ToString("dd/MM/yyyy")"
+                     data-montant="@location.MontantTotal">
+                    <h3 class="movie-title">@detail.Film.Titre</h3>
+                    <div class="movie-info">
+                        <span>Locataire : @location.User.UserName</span>
+                        <span>Retour prévu : @location.DateRetourPrevue.ToString("dd/MM/yyyy")</span>
+                        <span>Code DVD : @detail.ExemplaireDVD.CodeBarre</span>
+
+                        <span class="stock-info">
+                            <span class="status-label">Statut :</span>
+                            <span class="status-badge @(location.Statut == "En retard" ? "status-retard" : "status-encours")">
+                                @location.Statut
+                            </span>
+                        </span>
+
+                        <span class="stock-info">
+                            <span class="status-label">DVD physique :</span>
+                            <span class="status-badge @(detail.ExemplaireDVD.EstDansStock ? "status-encours" : "status-retard")">
+                                @(detail.ExemplaireDVD.EstDansStock ? "En magasin" : "Hors magasin")
+                            </span>
+                        </span>
+
+                        <form asp-action="ChangerEtatStock" method="post">
+                            <input type="hidden" name="exemplaireDvdId" value="@detail.ExemplaireDVD.Id" />
+                            <button type="submit" class="btn-stock-change">
+                                @(detail.ExemplaireDVD.EstDansStock ? "Marquer hors magasin" : "Marquer en magasin")
+                            </button>
+                        </form>
+
+                        @if (location.Statut != "Terminée")
+                        {
+                            <form asp-action="TraiterRetour" method="post" class="mt-3">
+                                <input type="hidden" name="locationDetailId" value="@detail.Id" />
+                                <button type="submit" class="btn-return">
+                                    Confirmer le retour
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Modal Scanner -->
+<div class="modal fade" id="scannerModal" tabindex="-1" >
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content" >
+            <div class="modal-header" >
+                <h5 class="modal-title" >Scanner un DVD</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="interactive" class="viewport"></div>
+                <div class="mt-3">
+                    <p>Résultat du scan: <strong id="scanResult">En attente...</strong></p>
+                    <div id="dvdInfo" style="display: none;" class="alert alert-info mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Détails -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Détails de la location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <p><strong>LOCATAIRE :</strong> <span class="locataire-name"></span></p>
+                <div class="mb-4">
+                    <p><strong>Identifiant DVD :</strong> <span class="dvd-id"></span></p>
+                    <p><strong>Début d'emprunt :</strong> <span class="date-debut"></span></p>
+                    <p><strong>Date de retour prévu :</strong> <span class="date-retour"></span></p>
+                    <p><strong>Prix :</strong> <span class="prix"></span></p>
+                    <p><strong>Type de paiement :</strong> <span class="type-paiement"></span></p>
+                    <p class=""><strong>Remarque client :</strong> <span class="remarque"></span></p>
+                </div>
+                <div class="modal-divider"></div>
+                <div class="mb-4">
+                    
+                    <div class="text-center">
+                        <button class="facture-btn" data-bs-toggle="modal" data-bs-target="#factureModal">
+                            Facture
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Facture -->
+<div class="modal fade" id="factureModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Facture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <div class="facture-item">
+                    <p>• Film : <span class="film-titre"></span></p>
+                </div>
+                <div class="facture-item">
+                    <p>• Date d'emprunt : <span class="date-emprunt"></span></p>
+                </div>
+                <div class="facture-item">
+                    <p>• Date de retour : <span class="date-retour"></span></p>
+                </div>
+                <div class="facture-item">
+                    <p>• Type de paiement : <span class="type-paiement"></span></p>
+                </div>
+                <div class="facture-item">
+                    <p>Conditions générales :</p>
+                    <small>Tout retard sera facturé selon nos conditions générales de vente.</small>
+                </div>
+                <div class="facture-total mb-3">
+                    Total : <span class="montant-total"></span>€
+                </div>
+                <div class="facture-buttons d-flex justify-content-end">
+                    <button class="pdf-btn text-danger" style="font-size: 0.9em; padding: 6px 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Télécharger PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Required Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Scanner functionality
+            let quaggaInitialized = false;
+
+            $('#scannerModal').on('shown.bs.modal', function () {
+                initQuagga();
+            }).on('hidden.bs.modal', function () {
+                if (quaggaInitialized) {
+                    Quagga.stop();
+                    quaggaInitialized = false;
+                }
+            });
+
+            function initQuagga() {
+                if (quaggaInitialized) return;
+
+                Quagga.init({
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector("#interactive.viewport"),
+                        constraints: {
+                            facingMode: "environment"
+                        },
+                    },
+                    decoder: {
+                        readers: [
+                            "ean_reader",
+                            "ean_8_reader",
+                            "code_128_reader",
+                            "code_39_reader",
+                            "upc_reader"
+                        ]
+                    }
+                }, function (err) {
+                    if (err) {
+                        console.error(err);
+                        $('#scanResult').text("Erreur d'initialisation de la caméra");
+                        return;
+                    }
+                    console.log("Scanner démarré");
+                    quaggaInitialized = true;
+                    Quagga.start();
+                });
+
+                Quagga.onDetected(function (result) {
+                    var code = result.codeResult.code;
+                    $('#scanResult').text(code);
+
+                    $.get('/Retour/GetDVDInfo', { codeBarres: code })
+                        .done(function (data) {
+                            $('#dvdInfo').html(`
+                                        <p><strong>Film:</strong> ${data.filmTitle}</p>
+                                        <p><strong>Statut:</strong> ${data.estDansStock ? 'En magasin' : 'Hors magasin'}</p>
+                                        <form method="post" action="/Retour/ChangerEtatStock">
+                                            <input type="hidden" name="exemplaireDvdId" value="${data.exemplaireDvdId}" />
+                                            <button type="submit" class="btn-stock-change">
+                                                ${data.estDansStock ? 'Marquer hors magasin' : 'Marquer en magasin'}
+                                            </button>
+                                        </form>
+                                    `).show();
+                        })
+                        .fail(function () {
+                            $('#dvdInfo').html('<p class="text-danger">DVD non trouvé</p>').show();
+                        });
+                });
+            }
+
+            // Card and modal functionality
+            $('.movie-card').click(function (e) {
+                if (!$(e.target).closest('button, form').length) {
+                    const card = $(this);
+                    const data = {
+                        locationId: card.data('location-id'),
+                        detailId: card.data('detail-id'),
+                        dateEmprunt: card.data('date-emprunt'),
+                        montant: card.data('montant'),
+                        titre: card.find('.movie-title').text(),
+                        locataire: card.find('.movie-info span:eq(0)').text().replace('Locataire : ', ''),
+                        dateRetour: card.find('.movie-info span:eq(1)').text().replace('Retour prévu : ', ''),
+                        codeDvd: card.find('.movie-info span:eq(2)').text().replace('Code DVD : ', '')
+                    };
+
+                    updateModals(data);
+                    $('#detailsModal').modal('show');
+                }
+            });
+
+            function updateModals(data) {
+                // Update details modal
+                $('#detailsModal .locataire-name').text(data.locataire);
+                $('#detailsModal .dvd-id').text(data.codeDvd);
+                $('#detailsModal .date-debut').text(data.dateEmprunt);
+                $('#detailsModal .date-retour').text(data.dateRetour);
+                $('#detailsModal .prix').text(data.montant + ' €');
+                $('#detailsModal .type-paiement').text('Carte bancaire');
+                $('#detailsModal .remarque').text('N/A');
+
+                // Update facture modal
+                $('#factureModal .film-titre').text(data.titre);
+                $('#factureModal .date-emprunt').text(data.dateEmprunt);
+                $('#factureModal .date-retour').text(data.dateRetour);
+                $('#factureModal .type-paiement').text('Carte bancaire');
+                $('#factureModal .montant-total').text(data.montant);
+            }
+
+            // Modal behavior
+            $('#factureModal').on('hidden.bs.modal', function () {
+                $('#detailsModal').modal('show');
+            });
+
+            // PDF Generation
+            $('.pdf-btn').click(function (e) {
+                e.preventDefault();
+                generatePDF();
+            });
+
+            function generatePDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const data = {
+                    filmTitre: $('#factureModal .film-titre').text(),
+                    dateEmprunt: $('#factureModal .date-emprunt').text(),
+                    dateRetour: $('#factureModal .date-retour').text(),
+                    typePaiement: $('#factureModal .type-paiement').text(),
+                    montantTotal: $('#factureModal .montant-total').text()
+                };
+
+                doc.setFontSize(20);
+                doc.text('Facture de Location', 20, 20);
+
+                doc.setLineWidth(0.5);
+                doc.line(20, 25, 190, 25);
+
+                doc.setFontSize(12);
+                doc.text('Détails de la location:', 20, 40);
+                doc.text(`Film: ${data.filmTitre}`, 30, 50);
+                doc.text(`Date d'emprunt: ${data.dateEmprunt}`, 30, 60);
+                doc.text(`Date de retour: ${data.dateRetour}`, 30, 70);
+                doc.text(`Type de paiement: ${data.typePaiement}`, 30, 80);
+
+                doc.line(20, 90, 190, 90);
+
+                doc.setFontSize(14);
+                doc.text(`Total: ${data.montantTotal}€`, 150, 100);
+
+                doc.setFontSize(10);
+                doc.text('Conditions générales:', 20, 120);
+                doc.text('Tout retard sera facturé selon nos conditions générales de vente.', 20, 130);
+                doc.text('Vidéothèque - Facture générée le ' + new Date().toLocaleDateString(), 20, 280);
+
+                window.open(doc.output('bloburl'), '_blank');
+            }
+        });
+    </script>
+}

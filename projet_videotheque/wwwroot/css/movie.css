@@ -1,0 +1,167 @@
+﻿/* Styles des cartes de films */
+
+body {
+    background-color: white;
+}
+
+.movie-card {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border-radius: 15px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    width: 90%;
+    min-width: 225px;
+    box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+}
+
+
+    .movie-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 12px 12px 24px #13132b, -12px -12px 24px #212149;
+    }
+
+.movie-image {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    height: 225px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative;
+    padding: 8px;
+    box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149, inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+}
+
+    .movie-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+        box-shadow: 4px 4px 8px rgba(19, 19, 43, 0.5);
+        transition: transform 0.3s ease;
+    }
+
+.movie-card:hover .movie-image img {
+    transform: scale(1.05);
+}
+
+.duration {
+    color: #a8a8a8;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    box-shadow: inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+}
+
+.rent-button {
+    background: linear-gradient(145deg, #7665f0, #6351cb);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+    .rent-button:hover {
+        background: linear-gradient(145deg, #6351cb, #5442bc);
+        box-shadow: inset 4px 4px 8px #4a3aa3, inset -4px -4px 8px #7c68f3;
+        transform: translateY(-2px);
+    }
+
+.duration {
+    color: #a8a8a8;
+    font-size: 0.9rem;
+}
+
+.score-badge {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    color: #6c5ce7;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    box-shadow: 3px 3px 6px #13132b, -3px -3px 6px #212149;
+}
+
+/* Styles de la section de filtres */
+.filter-section {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border-radius: 20px;
+    box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+}
+
+.search-bar {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border-radius: 20px;
+    width: 400px;
+    box-shadow: inset 4px 4px 8px #13132b, inset -4px -4px 8px #212149;
+}
+
+.active-filter {
+    background: linear-gradient(145deg, #7665f0, #6351cb);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 3px 3px 6px #13132b, -3px -3px 6px #212149;
+}
+
+/* Styles des boutons et menus de filtrage */
+.filter-btn {
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px #13132b, -3px -3px 6px #212149;
+    transition: all 0.3s ease;
+}
+
+    .filter-btn:hover {
+        box-shadow: inset 3px 3px 6px #13132b, inset -3px -3px 6px #212149;
+        color: #6c5ce7;
+    }
+
+/* Styles du menu déroulant de filtres */
+.dropdown-menu {
+    min-width: 200px;
+    padding: 0.5rem 0;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #1f1f45, #171736);
+    box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    border: none;
+}
+
+.dropdown-header {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #2d2d5a;
+    margin-bottom: 0.5rem;
+    color: #a8a8a8;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+    .dropdown-item.active {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .dropdown-item:hover {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        box-shadow: inset 3px 3px 6px #13132b, inset -3px -3px 6px #212149;
+        color: #6c5ce7;
+    }
+

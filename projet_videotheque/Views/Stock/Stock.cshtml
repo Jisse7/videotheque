@@ -1,0 +1,259 @@
+﻿@model List<videotheque.ViewModels.StockViewModel>
+
+<div class="container">
+    <button class="nav-button mt-4 fw-bold" disabled>Stocks & Gestion</button>
+
+    <div class="grid-container">
+        @foreach (var film in Model)
+        {
+            <div class="movie-card" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                 data-film-id="@film.Id">
+                <h3 class="movie-title">@film.Titre</h3>
+                <div class="movie-info">
+                    <span>En stock : @film.ExemplairesDisponibles / @film.NombreExemplaires</span>
+                    <div>Catégorie : @film.CategorieName</div>
+                    <div>Réalisateur : @film.Realisateur</div>
+                    <div>Année : @film.AnneeSortie</div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Modal Détails -->
+    <div class="modal fade" id="detailsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="modal-title">Modifier le film</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="editFilmForm" method="POST" asp-controller="Stock" asp-action="Edit">
+                    <input type="hidden" id="filmId" name="Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Titre</label>
+                        <input type="text" class="form-control" name="Titre" id="filmTitre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Réalisateur</label>
+                        <input type="text" class="form-control" name="Realisateur" id="filmRealisateur" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Année de sortie</label>
+                            <input type="number" class="form-control" name="AnneeSortie" id="filmAnneeSortie" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Durée (minutes)</label>
+                            <input type="number" class="form-control" name="DureeMinutes" id="filmDuree" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Synopsis</label>
+                        <textarea class="form-control" name="Synopsis" id="filmSynopsis" rows="3" required></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">URL de l'image</label>
+                            <input type="url" class="form-control" name="ImageUrl" id="filmImageUrl">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">URL de la bande-annonce</label>
+                            <input type="text" class="form-control" name="TrailerUrl" id="filmTrailerUrl">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre d'exemplaires</label>
+                            <input type="number" class="form-control" name="NombreExemplaires" id="filmNombreExemplaires" min="0" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Catégorie</label>
+                            <select class="form-control" name="CategorieId" id="filmCategorie" required>
+                                @foreach (var categorie in ViewBag.Categories)
+                                {
+                                    <option value="@categorie.Id">@categorie.Nom</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-divider"></div>
+
+                    <div class="mb-4">
+                        <h6>Prix de location</h6>
+                        <div class="price-grid">
+                            <div class="price-item">
+                                <label class="price-label">24h</label>
+                                <input type="number" name="Prix24h" id="filmPrix24h" class="form-control" step="0.01" required>
+                            </div>
+                            <div class="price-item">
+                                <label class="price-label">48h</label>
+                                <input type="number" name="Prix48h" id="filmPrix48h" class="form-control" step="0.01" required>
+                            </div>
+                            <div class="price-item">
+                                <label class="price-label">72h</label>
+                                <input type="number" name="Prix72h" id="filmPrix72h" class="form-control" step="0.01" required>
+                            </div>
+                            <div class="price-item">
+                                <label class="price-label">1 semaine</label>
+                                <input type="number" name="Prix1Semaine" id="filmPrix1Semaine" class="form-control" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-danger" onclick="deleteFilm()">
+                            Supprimer le film
+                        </button>
+                        <button type="submit" class="save-btn">
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal pour ajouter un film -->
+        <div class="modal fade" id="addMovieModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="modal-title">Ajouter un film</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form method="POST" asp-action="Create">
+                        <div class="mb-3">
+                            <label class="form-label">Titre du film</label>
+                            <input type="text" class="form-control" name="Titre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Réalisateur</label>
+                            <input type="text" class="form-control" name="Realisateur" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Année de sortie</label>
+                            <input type="number" class="form-control" name="AnneeSortie" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Synopsis</label>
+                            <textarea class="form-control" name="Synopsis" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">URL de l'image</label>
+                            <input type="url" class="form-control" name="ImageUrl">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">URL de la bande-annonce</label>
+                            <input type="url" class="form-control" name="TrailerUrl">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre d'exemplaires</label>
+                            <input type="number" class="form-control" name="NombreExemplaires" min="1" value="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Durée (minutes)</label>
+                            <input type="number" class="form-control" name="DureeMinutes" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Catégorie</label>
+                            <select class="form-control" name="CategorieId" required>
+                                @foreach (var categorie in ViewBag.Categories)
+                                {
+                                    <option value="@categorie.Id">@categorie.Nom</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="modal-divider"></div>
+                        <div class="mb-4">
+                            <h6>Prix de location</h6>
+                            <div class="price-grid">
+                                <div class="price-item">
+                                    <label class="price-label">24h</label>
+                                    <input type="number" name="Prix24h" class="form-control" step="0.01" value="2.99" required>
+                                </div>
+                                <div class="price-item">
+                                    <label class="price-label">48h</label>
+                                    <input type="number" name="Prix48h" class="form-control" step="0.01" value="4.99" required>
+                                </div>
+                                <div class="price-item">
+                                    <label class="price-label">72h</label>
+                                    <input type="number" name="Prix72h" class="form-control" step="0.01" value="6.99" required>
+                                </div>
+                                <div class="price-item">
+                                    <label class="price-label">1 semaine</label>
+                                    <input type="number" name="Prix1Semaine" class="form-control" step="0.01" value="9.99" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="save-btn">
+                                Ajouter au stock
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire caché pour la suppression -->
+        <form id="deleteForm" asp-action="Delete" method="POST" style="display: none;">
+            <input type="hidden" id="deleteFilmId" name="id" />
+            @Html.AntiForgeryToken()
+        </form>
+
+        @section Scripts {
+            <script>
+                // Fonction pour charger les détails d'un film dans la modale
+                $('.movie-card').on('click', function () {
+                    const filmId = $(this).data('film-id');
+
+                    // Appel AJAX pour récupérer les détails du film
+                    $.get(`/Stock/Edit/${filmId}`, function (film) {
+                        $('#filmId').val(film.id);
+                        $('#filmTitre').val(film.titre);
+                        $('#filmRealisateur').val(film.realisateur);
+                        $('#filmAnneeSortie').val(film.anneeSortie);
+                        $('#filmSynopsis').val(film.synopsis);
+                        $('#filmImageUrl').val(film.imageUrl);
+                        $('#filmTrailerUrl').val(film.trailerUrl);
+                        $('#filmNombreExemplaires').val(film.nombreExemplaires);
+                        $('#filmDuree').val(film.dureeMinutes);
+                        $('#filmCategorie').val(film.categorieId);
+                        $('#filmPrix24h').val(film.prix24h);
+                        $('#filmPrix48h').val(film.prix48h);
+                        $('#filmPrix72h').val(film.prix72h);
+                        $('#filmPrix1Semaine').val(film.prix1Semaine);
+                    });
+                });
+
+                // Fonction pour supprimer un film
+                function deleteFilm() {
+                    if (confirm('Êtes-vous sûr de vouloir supprimer ce film ?')) {
+                        const filmId = $('#filmId').val();
+                        $('#deleteFilmId').val(filmId);
+                        $('#deleteForm').submit();
+                    }
+                }
+
+                // Gestion des formulaires avec validation
+                $('#editFilmForm').on('submit', function (e) {
+                    if (!this.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    $(this).addClass('was-validated');
+                });
+
+                // Gestionnaire d'erreurs AJAX
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    alert('Une erreur est survenue lors de la communication avec le serveur.');
+                });
+            </script>
+        }

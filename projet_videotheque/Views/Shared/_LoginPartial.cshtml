@@ -1,0 +1,29 @@
+﻿
+@using Microsoft.AspNetCore.Identity;
+
+
+@inject SignInManager<Users> signInManager;
+
+<ul class="navbar-nav ms-auto">
+
+    @if (signInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Se déconnecter</a>
+        </li>
+    }
+    else
+    {
+        // Si l'utilisateur n'est pas connecté, on affiche les options "Login" et "Register".
+
+        <li class="nav-item">
+         
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Se connecter</a>
+        </li>
+        <li class="nav-item">
+        
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">S'enregistrer</a>
+        </li>
+    }
+</ul>

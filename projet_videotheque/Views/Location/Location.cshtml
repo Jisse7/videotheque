@@ -1,0 +1,267 @@
+﻿@model IEnumerable<videotheque.Models.Location>
+<style>
+    .movie-card {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        border-radius: 15px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        min-width: 225px;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 12px 12px 24px #13132b, -12px -12px 24px #212149;
+        }
+
+    .movie-image {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        height: 225px;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        position: relative;
+        padding: 8px;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149, inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+    }
+
+        .movie-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 4px 4px 8px rgba(19, 19, 43, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+    .movie-card:hover .movie-image img {
+        transform: scale(1.05);
+    }
+
+    .score-badge {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        color: #6c5ce7;
+        padding: 0.4rem 0.8rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        box-shadow: 3px 3px 6px #13132b, -3px -3px 6px #212149;
+    }
+
+    .details-btn {
+        background: linear-gradient(145deg, #7665f0, #6351cb);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 0.5rem 2rem;
+        box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+        transition: all 0.3s ease;
+    }
+
+        .details-btn:hover {
+            background: linear-gradient(145deg, #6351cb, #5442bc);
+            box-shadow: inset 4px 4px 8px #4a3aa3, inset -4px -4px 8px #7c68f3;
+        }
+
+    .date-info {
+        color: #a8a8a8;
+        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 8px;
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        box-shadow: inset 2px 2px 4px #13132b, inset -2px -2px 4px #212149;
+    }
+
+    .h5.mb-0.text-whute {
+        color: #fff !important;
+        text-shadow: 1px 1px 2px #13132b;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        box-shadow: 3px 3px 6px #13132b, -3px -3px 6px #212149;
+    }
+
+    .status-active {
+        background: linear-gradient(145deg, #32d979, #2abc63);
+    }
+
+    .status-returned {
+        background: linear-gradient(145deg, #9fb3b4, #8a9798);
+    }
+
+    .modal-content {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        color: white;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    }
+
+    .modal-header {
+        background: linear-gradient(145deg, #232350, #1b1b40);
+        padding: 1.5rem;
+        border-bottom: 1px solid #2d2d5a;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .modal-title {
+        color: white;
+        text-shadow: 1px 1px 2px #13132b;
+    }
+
+    .btn-close-white {
+        background-color: #a8a8a8;
+        opacity: 1;
+        padding: 0.5rem;
+        border-radius: 50%;
+        box-shadow: 2px 2px 4px #13132b, -2px -2px 4px #212149;
+        transition: all 0.3s ease;
+    }
+
+        .btn-close-white:hover {
+            background-color: #6c5ce7;
+            box-shadow: inset 2px 2px 4px #4a3aa3, inset -2px -2px 4px #7c68f3;
+        }
+
+    .modal-body {
+        padding: 1.5rem;
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        border-radius: 0 0 20px 20px;
+    }
+
+    .info-row {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        padding: 1rem 1.5rem;
+        margin: 1rem 0;
+        border-radius: 15px;
+        box-shadow: inset 4px 4px 8px #13132b, inset -4px -4px 8px #212149;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .info-label {
+        color: #a8a8a8;
+        font-weight: 500;
+        text-shadow: 1px 1px 2px #13132b;
+    }
+
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s ease-out;
+    }
+
+    .modal.show .modal-dialog {
+        transform: none;
+    }
+
+    .no-rentals-message {
+        text-align: center;
+        padding: 3rem;
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        border-radius: 15px;
+        color: #a8a8a8;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+        margin: 2rem auto;
+        max-width: 600px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h3 class="badge fs-5 mb-5">Mes films loués</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="no-rentals-message">
+            <h4 class="text-white mb-3">Aucune location en cours</h4>
+            <p class="mb-0">Vous n'avez pas encore loué de films. Découvrez notre catalogue pour trouver votre prochain film !</p>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+            @foreach (var location in Model)
+            {
+                @foreach (var detail in location.LocationDetails)
+                {
+                    <div class="col">
+                        <div class="movie-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class=" mb-0 text-white" style="font-size:0.9rem">@detail.Film.Titre</span>
+                                @if (detail.Film.ScoreMoyen > 0)
+                                {
+                                    <span class="score-badge">@detail.Film.ScoreMoyen/5</span>
+                                }
+                            </div>
+                            <div class="movie-image">
+                                <img src="@detail.Film.ImageUrl" alt="@detail.Film.Titre poster">
+                            </div>
+                            <div class="date-info my-2 mb-3">
+                                @if (location.DateRetourEffective.HasValue)
+                                {
+                                    <span>Retourné le : @location.DateRetourEffective.Value.ToString("dd/MM/yyyy")</span>
+                                }
+                                else
+                                {
+                                    <span>Retour prévu : @location.DateRetourPrevue.ToString("dd/MM/yyyy")</span>
+                                }
+                            </div>
+                            <button class="details-btn w-100" data-bs-toggle="modal" data-bs-target="#detailsModal_@location.Id">
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Détails pour chaque location -->
+                    <div class="modal fade" id="detailsModal_@location.Id" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Détails de la location - @detail.Film.Titre</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="info-row">
+                                        <span class="info-label">Date de location</span>
+                                        <span>@location.DateLocation.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="info-label">Retour prévu</span>
+                                        <span>@location.DateRetourPrevue.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                    @if (location.DateRetourEffective.HasValue)
+                                    {
+                                        <div class="info-row">
+                                            <span class="info-label">Date de retour effective</span>
+                                            <span>@location.DateRetourEffective.Value.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    }
+                                    <div class="info-row">
+                                        <span class="info-label">Montant</span>
+                                        <span>@detail.PrixUnitaire.ToString("C")</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="info-label">Statut</span>
+                                        <span class="status-badge @(location.DateRetourEffective.HasValue ? "status-returned" : "status-active")">
+                                            @location.Statut
+                                        </span>
+                                    </div>
+
+                                    <div class="info-row">
+                                        <span class="info-label">Code-barres DVD</span>
+                                        <span>@detail.ExemplaireDVD?.CodeBarre</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+</div>

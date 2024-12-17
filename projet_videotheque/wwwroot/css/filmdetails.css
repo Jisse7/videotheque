@@ -1,0 +1,228 @@
+﻿body {
+    background-color: #13132b;
+    color: white;
+}
+
+.movie-container {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: -5rem;
+    box-shadow: 8px 8px 16px #0d0d1f, -8px -8px 16px #191937;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient( to right, rgba(19, 19, 43, 0.6) 0%, rgba(19, 19, 43, 0.5) 50%, rgba(19, 19, 43, 0.4) 100% ), linear-gradient( to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.05) 100% );
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.movie-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.movie-description {
+    max-width: 700px;
+    margin: 2rem 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.score {
+    margin-bottom: 1.5rem;
+}
+
+    .score h2 {
+        display: inline-block;
+        background: linear-gradient(145deg, #171730, #111125);
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        box-shadow: 8px 8px 16px #0d0d1f, -8px -8px 16px #191937;
+        font-size: 1.8rem;
+    }
+
+.action-buttons {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.btn-purple, .btn-outline {
+    font-size: 1.1rem;
+    padding: 0.8rem 2.5rem;
+}
+
+.btn-purple {
+    background: linear-gradient(145deg, #6c54e5, #5945c2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #0d0d1f, -4px -4px 8px #191937;
+    transition: all 0.3s ease;
+}
+
+    .btn-purple:hover {
+        background: linear-gradient(145deg, #5945c2, #4d3ba8);
+        box-shadow: inset 4px 4px 8px #43349a, inset -4px -4px 8px #7561f0;
+    }
+
+.btn-outline {
+    background: linear-gradient(145deg, #171730, #111125);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px #0d0d1f, -4px -4px 8px #191937;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline:hover {
+        box-shadow: inset 4px 4px 8px #0d0d1f, inset -4px -4px 8px #191937;
+    }
+
+.movie-info {
+    margin-top: 1.5rem;
+    color: #9090a0;
+    font-size: 1.15rem;
+}
+
+.realisateur.year {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Modal Styles */
+.modal {
+    --bs-modal-bg: #1a1a3a;
+    --bs-modal-border-color: #2d2d5a;
+    --bs-modal-color: white;
+}
+
+.modal-content {
+    background-color: var(--bs-modal-bg);
+    border-color: var(--bs-modal-border-color);
+    color: var(--bs-modal-color);
+}
+
+.modal-header {
+    border-bottom-color: var(--bs-modal-border-color);
+}
+
+.modal-footer {
+    border-top-color: var(--bs-modal-border-color);
+}
+
+/* Video Container */
+.video-container {
+    min-width: 100%;
+    margin: 0 auto;
+}
+
+video {
+    width: 100%;
+    border-radius: 4px;
+}
+
+/* Calendar Styles */
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-top: 1rem;
+}
+
+.day-item {
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.day-name {
+    text-align: center;
+    font-size: 0.9em;
+    color: #a8a8a8;
+    width: calc(100% / 7);
+}
+
+.day-disabled {
+    color: #666;
+    cursor: not-allowed;
+    background-color: #1a1a3a;
+}
+
+.day-available {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.day-unavailable {
+    background-color: #e74c3c;
+    color: white;
+    cursor: not-allowed;
+}
+
+.day-selected {
+    background-color: #6c5ce7;
+    color: white;
+    border: 2px solid white;
+}
+
+.month-title {
+    font-size: 1.2em;
+    color: white;
+}
+
+/* Form Controls */
+.form-select {
+    background-color: #2d2d5a;
+    color: white;
+    border-color: #6c5ce7;
+}
+
+    .form-select:focus {
+        background-color: #2d2d5a;
+        color: white;
+        border-color: #6c5ce7;
+        box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
+    }
+
+    .form-select option {
+        background-color: #2d2d5a;
+        color: white;
+    }
+
+/* Toast Styles */
+.toast {
+    background: linear-gradient(145deg, #171730, #111125);
+    color: white;
+    box-shadow: 8px 8px 16px #0d0d1f, -8px -8px 16px #191937;
+}
+
+.toast-header {
+    background: linear-gradient(145deg, #6c54e5, #5945c2);
+    color: white;
+    border-bottom: none;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}

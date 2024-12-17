@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Vidéothèque</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/movie.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/filmdetails.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <!-- Navbar principale -->
+        <nav class="navbar mb-2">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center">
+                    <button class="btn menu-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand ms-3" asp-area="" asp-controller="Home" asp-action="Index"><strong>VIDEOTHEQUE </strong></a>
+                    @* retour à l'accueil *@
+                </div>
+
+                <button class="btn cart-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Menu Offcanvas -->
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="sideMenu" aria-labelledby="sideMenuLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sideMenuLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body p-0 d-flex flex-column h-100">
+                <partial name="_NavMenu" /> 
+                @* la vue partial comprend la logique *@
+            </div>
+        </div>
+
+      
+        <!-- Panier Offcanvas -->
+        <div class="offcanvas offcanvas-end cart-offcanvas" tabindex="-1" id="cartMenu" aria-labelledby="cartMenuLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="cartMenuLabel">
+                    <i class="fas fa-shopping-cart me-2"></i>Panier
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <partial name="_ShoppingCart" />
+                @* la vue partial comprend la logique *@
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid rounded-4"
+        <main role="main" class="" style="width:100%">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="footer-content">
+                <p>Réalisé par: Jean-Christophe FEYDEL & Yanis BOUHJOURA pour le projet de web serveur</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
