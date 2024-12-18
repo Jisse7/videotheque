@@ -2,8 +2,7 @@
 
 namespace videotheque.Models
 {
-    // Extension de votre classe Users existante
-    // Models/Users.cs
+  
     public class Users : IdentityUser
     {
         public string FullName { get; set; }
@@ -11,7 +10,6 @@ namespace videotheque.Models
         public DateTime DateInscription { get; set; } = DateTime.UtcNow;  // Valeur par défaut
     
 
-    // Propriétés de navigation
     public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Evaluation> Evaluations { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
