@@ -68,7 +68,7 @@
         <i class="fas fa-home me-2"></i>Accueil
     </a>
 
-    <!-- Options visibles uniquement pour les utilisateurs connectés -->
+    <!-- pour les utilisateurs connectés -->
     @if (signInManager.IsSignedIn(User))
     {
         <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "EditProfil" ? "active" : "")"
