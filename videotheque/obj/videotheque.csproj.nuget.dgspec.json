@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\videotheque.csproj": {}
+    "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\videotheque.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\videotheque.csproj": {
+    "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\videotheque.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\videotheque.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\videotheque.csproj",
         "projectName": "videotheque",
-        "projectPath": "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\videotheque.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\videotheque.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
