@@ -79,9 +79,9 @@ namespace videotheque.Controllers
             {
                 Users users = new Users
                 {
-                    FullName = model.Name,  // Assure-toi que model.Name existe
+                    FullName = model.Name,  
                     Email = model.Email,
-                    UserName = model.Email,  // L'email servira de nom d'utilisateur
+                    UserName = model.Email, 
                     DateInscription = DateTime.UtcNow
                 };
 
