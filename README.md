@@ -68,8 +68,9 @@ Update-Database
 7. Lancer le projet :
 - Appuyer sur F5 ou utiliser le bouton pour exécuter le projet 
 
-8. Se connecter : 
--En tant qu'administrateur : 
+8. Se connecter :
+   
+En tant qu'administrateur : 
 - Login : admin@admin
 - Mdp : 12345678
 
