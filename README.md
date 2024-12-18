@@ -28,6 +28,9 @@ git clone https://github.com/Jisse7/videotheque.git
 
 3. Configurer la base de données :
 - Ouvrir SQL Server Management Studio
+
+![SQL SERVER MANAGEMENT](https://github.com/user-attachments/assets/d4cbe4b7-f1d8-4f99-a7d6-4233fa53e2ec)
+
 -à l'ouverture il vous indiqué le Server name, copiez-le.
 - Ouvrir le fichier `appsettings.json` du projet.
 - Modifier la chaîne de connexion en remplaçant "VOTRE_SERVER_NAME" par votre Server name indiqué sur SQL Server ManagementStudio, voir en dessous :
@@ -64,6 +67,8 @@ Update-Database
 - New Query
 - Copier le contenu du fichier Seed.txt ou Seed.sql puis coller dans le fenêtre pour la requête.
 - Exécuter la requête.
+  
+![rqtseedbdd](https://github.com/user-attachments/assets/19880a36-98ab-4af5-bb4e-f8ad39342f04)
 
 7. Lancer le projet :
 - Appuyer sur F5 ou utiliser le bouton pour exécuter le projet 
