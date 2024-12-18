@@ -6,13 +6,13 @@ namespace videotheque.Data
 {
     public class AppDbContext : IdentityDbContext<Users>
     {
-        // Le constructeur prend les options de configuration de la base de données
+        //constructeur
         public AppDbContext(DbContextOptions options) : base(options) { }
 
         // Chaque DbSet représente une table dans la base de données
         public DbSet<Film> Films { get; set; }
 
-       /* public DbSet<PrixLocation> PrixLocations { get; set; }*/
+      
         public DbSet<Categorie> Categories { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LocationDetail> LocationDetails { get; set; }
@@ -33,7 +33,7 @@ namespace videotheque.Data
           .HasForeignKey(e => e.FilmId)
           .OnDelete(DeleteBehavior.Restrict);
 
-            // Assure que le code-barres est unique
+            // pour que le code barre soi unique
             modelBuilder.Entity<ExemplaireDVD>()
                 .HasIndex(e => e.CodeBarre)
                 .IsUnique();
@@ -62,7 +62,7 @@ namespace videotheque.Data
                     Nom = "Action",
                     Description = "Films d'action et d'aventure"
                 }
-            ); // Ajout du point-virgule manquant
+            ); 
 
             // Configure la relation entre Film et Categorie
             modelBuilder.Entity<Film>()
@@ -110,7 +110,7 @@ namespace videotheque.Data
                 .HasForeignKey<Paiement>(p => p.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure les relations pour CartItem
+            // Configure  relations pour CartItem
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Film)
                 .WithMany(f => f.CartItems)
@@ -123,7 +123,7 @@ namespace videotheque.Data
                 .HasForeignKey(ci => ci.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Crée un index unique pour éviter les doublons dans le panier
+            // c pour créer un index unique pour éviter les doublons dans le panier
             modelBuilder.Entity<CartItem>()
                 .HasIndex(ci => new { ci.CartId, ci.FilmId })
                 .IsUnique();
