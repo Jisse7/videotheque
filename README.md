@@ -29,8 +29,8 @@ git clone https://github.com/Jisse7/videotheque.git
 3. Configurer la base de données :
 - Ouvrir SQL Server Management Studio
 -à l'ouverture il vous indiqué le Server name, copiez-le.
-- Ouvrir le fichier `appsettings.json`
-- Modifier la chaîne de connexion en remplaçant "VOTRE_SERVER_NAME" par votre Server name indiqué sur SQL Server ManagementStudio comme ci-dessous :
+- Ouvrir le fichier `appsettings.json` du projet.
+- Modifier la chaîne de connexion en remplaçant "VOTRE_SERVER_NAME" par votre Server name indiqué sur SQL Server ManagementStudio, voir en dessous :
 ```json
 "ConnectionStrings": {
     "Default": "Server=VOTRE_SERVER_NAME;Database=VOTRE_BASE_POUR_TESTER_VIDEOTHEQUE;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true"
