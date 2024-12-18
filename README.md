@@ -7,7 +7,7 @@
 
 ## Installation
 
-0.Préparer le terrain : 
+0. Préparer le terrain : 
 - Créer un dossier sur votre ordinateur
 - Ouvrir le terminal 
 - Aller dans le dossier nouvellement créé avec la commande : 
