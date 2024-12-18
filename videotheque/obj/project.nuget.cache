@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3Vcr060tMO0=",
+  "dgSpecHash": "djVC7rkQr1U=",
   "success": true,
-  "projectFilePath": "C:\\Users\\User\\Desktop\\gitwebserveur\\videotheque\\videotheque\\videotheque.csproj",
+  "projectFilePath": "C:\\Users\\User\\Desktop\\gitwebserveur - Copie\\videotheque\\videotheque\\videotheque.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
