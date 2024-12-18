@@ -58,12 +58,12 @@ Update-Database
 6. Seeder la bdd :
 
 -Aller Dans SQL Server Management  : 
--Aller dans Databases
--Votre trouverez VOTRE_BASE_POUR_TESTER_VIDEOTHEQUE
--Faire un clique droit dessus
--New Query
--Copier le contenu du fichier Seed.txt  puis coller dans le fenêtre pour la requête.
--Exécuter la requête.
+- Aller dans Databases
+- Votre trouverez VOTRE_BASE_POUR_TESTER_VIDEOTHEQUE
+- Faire un clique droit dessus
+- New Query
+- Copier le contenu du fichier Seed.txt ou Seed.sql puis coller dans le fenêtre pour la requête.
+- Exécuter la requête.
 
 7. Lancer le projet :
 - Appuyer sur F5 ou utiliser le bouton pour exécuter le projet 
