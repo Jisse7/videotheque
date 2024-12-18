@@ -79,3 +79,11 @@ En tant que client :
 
 (NB: l'admin a les mêmes fonctionnalités que le client en plus des siennes)
 
+9. Quelques bugs à corriger : 
+
+- La barre de recherche n'a pas été implémenté correctement.
+- acheter un film nouvellement créé depuis le crud ne marche pas. Piste : Il faut gérer les codes barres
+- Supprimer un film marche s'il n'est pas dans le panier. Piste : D'un point de vue technique, il va falloir d'abord vérifier le contenu du panier ensuite supprimer le film.
+- on peut louer 2 fois le même film s'il le premier film est sorti du magasin. Piste : Rajouter  une colonne 'EST_EN_LOCATION' dans le model exemplaireDVD.cs
+
+
