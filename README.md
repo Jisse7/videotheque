@@ -23,6 +23,9 @@ git clone https://github.com/Jisse7/videotheque.git
 
 2. Ouvrir le projet :
 - Lancer Visual Studio
+
+![Solution](https://github.com/user-attachments/assets/55caa7a7-1e0a-40c7-ab11-6e91b60cfdea)
+
 - SELECTIONNER OUVRIR UN PROJET OU UNE SOLUTION
 - Ouvrir le fichier .sln du projet qui se trouve dans /videotheque ; celui-ci se nomme videotheque.sln, c'est le premier ; NE PAS SELECTIONNER celui qui se trouve plus bas dans l'arborescence.
 
