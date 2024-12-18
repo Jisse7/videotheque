@@ -1,0 +1,432 @@
+﻿@model videotheque.ViewModels.DashboardViewModel
+
+<style>
+    body {
+        background-color: #1a1a3a;
+        color: white;
+     
+    }
+
+    .accordion-item {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        border: none;
+        margin-bottom: 15px;
+        border-radius: 15px !important;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    }
+
+    .accordion-button {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        color: white;
+        border-radius: 15px !important;
+        box-shadow: none;
+    }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(145deg, #1f1f45, #171736);
+            color: white;
+        }
+
+        .accordion-button::after {
+            filter: invert(1);
+        }
+
+    .accordion-body {
+        background: #1a1a3a;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .list-group-item {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        color: white;
+        border: none;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        box-shadow: 4px 4px 8px #13132b, -4px -4px 8px #212149;
+    }
+
+    .ranking-number {
+        background: #6c5ce7;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        box-shadow: 2px 2px 4px #13132b;
+    }
+
+    .profile-btn {
+        background: #2d2d5a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 15px;
+        font-size: 0.9em;
+        box-shadow: 3px 3px 6px #13132b;
+        transition: all 0.3s ease;
+    }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 8px #13132b;
+            background: #353570;
+            color: white;
+        }
+
+    .date-info {
+        color: #a8a8a8;
+        font-size: 0.9em;
+    }
+
+    .score-badge {
+        background: #2d2d5a;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 8px;
+        font-size: 0.8em;
+    }
+
+    /* Modal styles */
+    .modal-content {
+        background: linear-gradient(145deg, #1f1f45, #171736);
+        color: white;
+        border-radius: 15px;
+        box-shadow: 8px 8px 16px #13132b, -8px -8px 16px #212149;
+    }
+
+    .modal .list-group-item {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .info-label {
+        color: #a8a8a8;
+        font-size: 0.9em;
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+        background: #2d2d5a;
+        border-radius: 10px;
+        box-shadow: inset 2px 2px 5px #13132b;
+    }
+
+    .stat-label {
+        font-size: 0.8em;
+        color: #a8a8a8;
+        margin-bottom: 5px;
+    }
+
+    .stat-value {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-header {
+        border-bottom: none;
+    }
+</style>
+
+
+
+
+<div class="container mt-4">
+    <!-- Statistiques générales en haut -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Total Films</h6>
+                <span class="stat-value">@Model.TotalFilms</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Total Utilisateurs</h6>
+                <span class="stat-value">@Model.TotalUsers</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Locations en cours</h6>
+                <span class="stat-value">@Model.TotalLocationsEnCours</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">CA du mois</h6>
+                <span class="stat-value">@Model.ChiffreAffairesMois.ToString("C")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prix moyens -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Prix moyen 24h</h6>
+                <span class="stat-value">@Model.PrixMoyen24h.ToString("C")</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Prix moyen 48h</h6>
+                <span class="stat-value">@Model.PrixMoyen48h.ToString("C")</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Prix moyen 72h</h6>
+                <span class="stat-value">@Model.PrixMoyen72h.ToString("C")</span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group-item">
+                <h6 class="mb-1">Prix moyen 1 semaine</h6>
+                <span class="stat-value">@Model.PrixMoyen1Semaine.ToString("C")</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="dashboardAccordion">
+        <!-- Dernières locations -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLocations">
+                    Dernières locations
+                </button>
+            </h2>
+            <div id="collapseLocations" class="accordion-collapse collapse show" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var location in Model.DernieresLocations)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@location.FilmTitle</h6>
+                                        <span class="date-info">Loué par @location.UserName</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div>Du: @location.DateLocation.ToShortDateString()</div>
+                                        <div>Au: @location.DateRetourPrevue.ToShortDateString()</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Films les plus loués -->
+        @* <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopFilms">
+                    Top 10 des films les plus loués
+                </button>
+            </h2>
+            <div id="collapseTopFilms" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var film in Model.TopFilmsLoues)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@film.Titre</h6>
+                                        <span class="date-info">@film.NombreLocations locations</span>
+                                    </div>
+                                    <span class="score-badge">Score: @film.ScoreMoyen.ToString("F1")/5</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div> *@
+
+        <!-- Films les mieux notés -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopNotes">
+                    Top 10 des films les mieux notés
+                </button>
+            </h2>
+            <div id="collapseTopNotes" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var film in Model.TopFilmsNotes)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@film.Titre</h6>
+                                        <span class="date-info">@film.ExemplairesDisponibles exemplaires disponibles</span>
+                                    </div>
+                                    <span class="score-badge">Note: @film.ScoreMoyen.ToString("F1")/5</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Locations en retard -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRetard">
+                    Locations en retard
+                </button>
+            </h2>
+            <div id="collapseRetard" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var retard in Model.LocationsEnRetard)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@retard.FilmTitle</h6>
+                                        <span class="date-info">@retard.UserName</span>
+                                    </div>
+                                    <div class="text-danger">
+                                        Retard: @retard.JoursRetard jours
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Films en stock bas -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStockBas">
+                    Films en stock bas
+                </button>
+            </h2>
+            <div id="collapseStockBas" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var film in Model.FilmsStockBas)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@film.Titre</h6>
+                                        <span class="date-info">Année: @film.AnneeSortie</span>
+                                    </div>
+                                    <span class="score-badge text-warning">Stock: @film.ExemplairesDisponibles</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste de tous les utilisateurs -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAllUsers">
+                    Liste des utilisateurs
+                </button>
+            </h2>
+            <div id="collapseAllUsers" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var user in Model.TousLesUtilisateurs)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@user.FullName</h6>
+                                        <span class="date-info">@user.Email</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div>@user.Adresse</div>
+                                        <small class="text-muted">Inscrit le: @user.DateInscription.ToShortDateString()</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nouveaux utilisateurs -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewUsers">
+                    Nouveaux utilisateurs du mois
+                </button>
+            </h2>
+            <div id="collapseNewUsers" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var user in Model.NouveauxUtilisateurs)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@user.FullName</h6>
+                                        <span class="date-info">Inscrit le: @user.DateInscription.ToShortDateString()</span>
+                                    </div>
+                                    <span class="score-badge">@user.NombreLocations locations</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DVDs disponibles -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDVDs">
+                    DVDs disponibles
+                </button>
+            </h2>
+            <div id="collapseDVDs" class="accordion-collapse collapse" data-bs-parent="#dashboardAccordion">
+                <div class="accordion-body">
+                    <div class="list-group">
+                        @foreach (var dvd in Model.DVDsDisponibles)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">@dvd.FilmTitle</h6>
+                                        <span class="date-info">Code: @dvd.CodeBarre</span>
+                                    </div>
+                                    <span class="score-badge">Stock: @dvd.ExemplairesDisponibles</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
